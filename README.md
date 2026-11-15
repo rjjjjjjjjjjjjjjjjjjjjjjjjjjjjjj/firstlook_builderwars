@@ -3,7 +3,7 @@
 
 **AI-Powered Health Screening | Healthcare Accessibility | AWS**
 
-🌐 **Live Website:** https://firstlook-health.lovable.app
+🌐 **Live Website:** https://firstlook-photo-insights.lovable.app/
 
 ## About the Project
 
@@ -28,21 +28,22 @@ Our goal isn't to replace doctors. It's to help people understand their concerns
 
 | Technology | Purpose |
 |---|---|
-| React & TypeScript | Website development |
-| Tailwind CSS | User interface |
-| Lovable AI | Image and symptom analysis |
-| AWS Lambda | Serverless storage processing |
-| Amazon S3 | Test image storage |
-| Amazon DynamoDB | Test screening records |
-| Python | AWS backend |
+| React & TypeScript (built with Lovable) | Mobile-first web app |
+| Tailwind CSS | Styling and responsive layout |
+| Lovable Cloud (Supabase) | Sign-in, saved history, health profile, and the server-side function that calls AWS |
+| Strands Agents (open source, AWS) with Claude (Anthropic) | Agent framework and AI model for photo and symptom analysis |
+| AWS Lambda (Python) | Serverless backend: emergency rules, safety checks, and the AI call |
+| Amazon S3 | Photo storage with automatic deletion |
+| Amazon DynamoDB | Records of each check |
 
 ## How It Works
 
-**Upload an injury photo → Describe symptoms → Receive AI guidance → Explore affordable care options**
-
-Users can save their results, monitor concerns over time, and use the insurance cost estimator to understand possible expenses.
-
-The main screening uses Lovable AI. AWS Lambda, S3, and DynamoDB are integrated through a separate, working synthetic-data storage workflow.
+1. **Emergency check first.** Severe symptoms like heavy bleeding or trouble breathing skip the AI entirely and open a full-screen Call 911 screen.
+2. **Photo, description, and symptoms (all optional).** Users can add a photo, a short description, symptoms, and risk factors, which an optional health profile can pre-fill. If they give almost nothing, FirstLook says it needs more information and does not guess.
+3. **Secure handoff.** The app's backend function sends the check to AWS Lambda with a secret key, so no credentials ever reach the browser.
+4. **Rules plus AI.** Lambda applies the emergency and risk rules first. Then Claude, running through the Strands agent framework, analyzes the photo and symptoms. Code rules can raise the urgency level but never lower it.
+5. **Clear result.** The user sees a care level (manageable at home for now, clinic, urgent care, or emergency), a plain-language explanation, next steps, warning signs, and a rough cost comparison.
+6. **Storage and history.** Photos go to S3 and a record goes to DynamoDB. The user's account and saved history stay in Lovable Cloud, where they can add follow-up photos and compare healing over time.
 
 ## Challenges & What We Learned
 
